@@ -11,7 +11,7 @@ namespace core {
 		Core(GLuint width, GLuint height, GLfloat frameCap, BaseGame *game);
 		void CreateDisplay(std::string title);
 		void Start();
-		~Core();
+		void Stop();
 	private:
 		void Run();
 

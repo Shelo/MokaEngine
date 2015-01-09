@@ -1,8 +1,6 @@
 #include "Core.h"
 
 namespace core {
-	/* namespace start */
-
 	Core::Core(GLuint width, GLuint height, GLfloat frameCap, BaseGame *game) {
 		this->frameTime = 1.0f / frameCap;
 		this->height = height;
@@ -12,10 +10,6 @@ namespace core {
 		if(glfwInit() == false) {
 			std::cerr << "GLFW failed at initialization." << std::endl;
 		}
-	}
-
-	Core::~Core() {
-		glfwTerminate();
 	}
 
 	void Core::CreateDisplay(std::string title) {
@@ -33,14 +27,26 @@ namespace core {
 		if(daemon) return;
 		daemon = true;
 		game->Create();
+		game->Create2();
 		Run();
 	}
 
 	void Core::Run() {
+		// TODO: create a proper main loop.
+
 		do {
+			game->Update();
+			game->Render();
 			display->Update();
 		} while(!display->IsCloseRequested());
+
+		Stop();
 	}
 
-	/* namespace close */
-}
+	void Core::Stop() {
+		daemon = false;
+		delete game;
+		glfwTerminate();
+	}
+
+} /* namespace core */

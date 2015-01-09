@@ -2,13 +2,28 @@
 #define VECTOR2_H
 
 #include "GL\glew.h"
+#include <cmath>
 
 class Vector2 {
 public:
-	Vector2(GLfloat x, GLfloat y);
-private:
 	GLfloat x;
 	GLfloat y;
+
+	Vector2(GLfloat x, GLfloat y);
+
+	Vector2& operator+=(const Vector2&);
+	Vector2& operator+(const Vector2&);
+
+	Vector2& operator-=(const Vector2&);
+	Vector2& operator-(const Vector2&);
+
+	Vector2& operator*=(const float);
+	Vector2& operator*(const float);
+
+	float Dot(const Vector2&);
+
+	void Normalize();
+	Vector2& Normalized();
 };
 
 #endif
