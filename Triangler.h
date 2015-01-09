@@ -12,7 +12,7 @@ private:
 	Mesh *mesh;
 public:
 	Triangler() {}
-	~Triangler() {}
+	virtual ~Triangler();
 
 	void Create();
 	void Render();

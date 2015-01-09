@@ -36,5 +36,5 @@ void Mesh::Draw() {
 }
 
 Mesh::~Mesh() {
-
+	glDeleteVertexArrays(1, &vao);
 }

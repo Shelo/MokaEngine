@@ -12,7 +12,7 @@ public:
 
 	virtual void Create() = 0;
 
-	virtual void Create2() final;
+	virtual void ICreate() final;
 	virtual void Update() final;
 	virtual void Render() final;
 

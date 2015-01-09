@@ -13,7 +13,7 @@ void BaseGame::AddGameObject(GameObject *child) {
 	root->AddChild(child);
 }
 
-void BaseGame::Create2() {
+void BaseGame::ICreate() {
 	root->Create();
 }
 

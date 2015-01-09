@@ -12,6 +12,12 @@ namespace core {
 		}
 	}
 
+	Core::~Core() {
+		delete game;
+		delete renderer;
+		delete display;
+	}
+
 	void Core::CreateDisplay(std::string title) {
 		display = new Display(width, height, title);
 
@@ -21,13 +27,15 @@ namespace core {
 			std::cerr << "GLEW failed at initialization." << std::endl;
 			glfwTerminate();
 		}
+
+		renderer = new Renderer();
 	}
 
 	void Core::Start() {
 		if(daemon) return;
 		daemon = true;
 		game->Create();
-		game->Create2();
+		game->ICreate();
 		Run();
 	}
 
@@ -36,6 +44,8 @@ namespace core {
 
 		do {
 			game->Update();
+
+			renderer->Render();
 			game->Render();
 			display->Update();
 		} while(!display->IsCloseRequested());
@@ -45,7 +55,6 @@ namespace core {
 
 	void Core::Stop() {
 		daemon = false;
-		delete game;
 		glfwTerminate();
 	}
 
