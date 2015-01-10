@@ -1,22 +1,25 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include "Transform.h"
+class GameObject;
+#include "Shader.h"
 
 class Component {
 public:
 	Component();
-	~Component();
+	virtual ~Component();
 
 	virtual void Create() {}
 	virtual void Update() {}
-	virtual void Render() {}
+	virtual void Render(Shader *shader) {}
 
+	void SetGameObject(GameObject *gameObject);
+
+	GameObject* GetGameObject();
+	Transform* GetTransform();
 private:
+	GameObject *gameObject;
 	Transform *transform;
-
-	Transform& getTransform();
-	Transform& getGameObject();
 };
 
 #endif

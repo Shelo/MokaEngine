@@ -2,6 +2,7 @@
 #define RENDERER_H
 
 #include "Shader.h"
+#include "BaseGame.h"
 
 class Renderer {
 private:
@@ -9,7 +10,11 @@ private:
 public:
 	Renderer();
 	~Renderer();
-	void Render();
+
+	void Create();
+	void Render(BaseGame *game);
+
+	Shader* GetShader();
 };
 
 #endif

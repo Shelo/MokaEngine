@@ -2,13 +2,13 @@
 #define GAMEOBJECT_H
 
 #include "Component.h"
-#include "Transform.h"
 #include <vector>
 
 class GameObject {
 public:
 	GameObject(float x, float y);
-	~GameObject();
+	virtual ~GameObject();
+
 	GameObject* AddComponent(Component *component);
 	GameObject* AddChild(GameObject *gameObject);
 
@@ -17,10 +17,10 @@ public:
 
 	void Create();
 	void Update();
-	void Render();
+	void Render(Shader *shader);
 private:
-	std::vector<GameObject*> children;
 	std::vector<Component*> components;
+	std::vector<GameObject*> children;
 	Transform *transform;
 };
 

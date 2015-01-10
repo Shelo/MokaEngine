@@ -24,6 +24,7 @@ GameObject* GameObject::AddChild(GameObject *gameObject) {
 }
 
 GameObject* GameObject::AddComponent(Component *component) {
+	component->SetGameObject(this);
 	components.push_back(component);
 	return this;
 }
@@ -53,10 +54,10 @@ void GameObject::Update() {
 		children[i]->Update();
 }
 
-void GameObject::Render() {
+void GameObject::Render(Shader *shader) {
 	for(size_t i = 0; i < components.size(); i++)
-		components[i]->Render();
+		components[i]->Render(shader);
 
 	for(size_t i = 0; i < children.size(); i++)
-		children[i]->Render();
+		children[i]->Render(shader);
 }

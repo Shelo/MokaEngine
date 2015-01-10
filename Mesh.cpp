@@ -1,4 +1,5 @@
 #include "Mesh.h"
+#include <vector>
 
 Mesh::Mesh(util::HeapArray<Vertex*> &vertices) {
 	std::vector<glm::vec3> positions;

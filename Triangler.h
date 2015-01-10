@@ -1,10 +1,10 @@
 #ifndef TRIANGLER_H
 #define TRIANGLER_H
 
+#include "HeapArray.h"
 #include "Component.h"
 #include "Vertex.h"
 #include "Mesh.h"
-#include "HeapArray.h"
 
 class Triangler : public Component {
 private:
@@ -14,7 +14,7 @@ public:
 	virtual ~Triangler();
 
 	void Create();
-	void Render();
+	void Render(Shader *shader);
 };
 
 #endif

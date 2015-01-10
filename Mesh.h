@@ -3,7 +3,6 @@
 
 #include "Vertex.h"
 #include "HeapArray.h"
-#include <vector>
 
 class Mesh {
 private:

@@ -15,9 +15,11 @@ Updated: 09-01-2015
 * Create Transform. [**Done**]
 * Create Shader. [**Done**]
 * Been able to draw a textured mesh with the Shader. [**Done**]
-* Create rendering engine. [**Semi-Done**]
-* Been able to send uniforms.
+* Create rendering engine. [**Done**]
+* Been able to send uniforms. [**Semi-Done**]
 * Create orthogonal and perspective views.
 * Create camera component.
 * Relate camera with the rendering engine.
-* Apply translation, rotation and scale matrices to the transform.
+* Get translation, rotation and scale matrices from the transform. [**Done**]
+* Been able to translate, scale and rotate a simple image [**Done**]
+* Create an advanced Game Loop.

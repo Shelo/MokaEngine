@@ -29,6 +29,7 @@ namespace core {
 		}
 
 		renderer = new Renderer();
+		renderer->Create();
 	}
 
 	void Core::Start() {
@@ -44,9 +45,7 @@ namespace core {
 
 		do {
 			game->Update();
-
-			renderer->Render();
-			game->Render();
+			renderer->Render(game);
 			display->Update();
 		} while(!display->IsCloseRequested());
 

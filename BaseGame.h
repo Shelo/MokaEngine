@@ -2,6 +2,7 @@
 #define BASEGAME_H
 
 #include "GameObject.h"
+#include "Shader.h"
 
 class BaseGame {
 private:
@@ -14,7 +15,7 @@ public:
 
 	virtual void ICreate() final;
 	virtual void Update() final;
-	virtual void Render() final;
+	virtual void Render(Shader *shader) final;
 
 	void AddGameObject(GameObject *child);
 	void AddComponent(Component *component);

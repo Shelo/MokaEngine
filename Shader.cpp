@@ -71,10 +71,8 @@ Shader::Shader(const std::string& filePath) {
 
 	glValidateProgram(program);
 	util::CheckShaderError(program, GL_VALIDATE_STATUS, true, "Error: Shader validation failed.");
-}
 
-void Shader::Bind() {
-	glUseProgram(program);
+	uniforms[U_TRANSFORM] = glGetUniformLocation(program, "u_transform");
 }
 
 Shader::~Shader() {
@@ -85,4 +83,13 @@ Shader::~Shader() {
 	glDeleteShader(fragment);
 
 	glDeleteProgram(program);
+}
+
+void Shader::Bind() {
+	glUseProgram(program);
+}
+
+void Shader::Update(const Transform *transform) {
+	glm::mat4 model = transform->GetModel();
+	glUniformMatrix4fv(uniforms[U_TRANSFORM], 1, false, &model[0][0]);
 }

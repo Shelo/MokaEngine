@@ -9,9 +9,8 @@ Texture::Texture(const std::string& filePath) {
 	
 	unsigned char *data = stbi_load(filePath.c_str(), &width, &height, &components, 4);
 
-	if(data == NULL) {
+	if(data == NULL)
 		std::cerr << "Error: Texture loading filed: " << filePath << std::endl;
-	}
 
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);

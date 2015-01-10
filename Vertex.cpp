@@ -15,11 +15,11 @@ Vertex& Vertex::New(GLfloat x, GLfloat y, GLfloat z) {
 	return *(new Vertex(x, y, z));
 }
 
-glm::vec3& Vertex::GetPosition() const {
+glm::vec3 Vertex::GetPosition() const {
 	return *position;
 }
 
-glm::vec2& Vertex::GetTexCoord() const {
+glm::vec2 Vertex::GetTexCoord() const {
 	return *texCoord;
 }
 

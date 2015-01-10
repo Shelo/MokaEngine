@@ -19,8 +19,8 @@ public:
 
 	static const GLuint SIZE = 5;
 
-	glm::vec3& GetPosition() const;
-	glm::vec2& GetTexCoord() const;
+	glm::vec3 GetPosition() const;
+	glm::vec2 GetTexCoord() const;
 };
 
 #endif

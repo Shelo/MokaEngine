@@ -6,19 +6,29 @@
 #include "Texture.h"
 #include "Triangler.h"
 
-class Game : public BaseGame {
+class Transformer : public Component {
 public:
-	Game() {
-
+	void Create() {
+		GetTransform()->GetScale()->x *= 0.5f;
+		GetTransform()->GetScale()->y *= 0.5f;
+		GetTransform()->GetScale()->z *= 0.5f;
 	}
 
+	void Update() {
+		GetTransform()->GetRotation()->y += 3.1415f / 1500.0f;
+	}
+};
+
+class Game : public BaseGame {
+public:
 	Texture *texture;
 
 	void Create() {
 		texture = new Texture("./res/textures/bricks2.jpg");
 		texture->Bind();
 
-		GameObject *p = new GameObject(10, 10);
+		GameObject *p = new GameObject(0.0f, 0.0f);
+		p->AddComponent(new Transformer());
 		AddGameObject(p->AddComponent(new Triangler()));
 	}
 

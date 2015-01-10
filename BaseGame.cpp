@@ -21,8 +21,8 @@ void BaseGame::Update() {
 	root->Update();
 }
 
-void BaseGame::Render() {
-	root->Render();
+void BaseGame::Render(Shader *shader) {
+	root->Render(shader);
 }
 
 void BaseGame::AddComponent(Component *component) {
