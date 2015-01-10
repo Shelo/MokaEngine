@@ -3,6 +3,7 @@
 #include "BaseGame.h"
 #include "Mesh.h"
 #include <vector>
+#include "Texture.h"
 #include "Triangler.h"
 
 class Game : public BaseGame {
@@ -11,13 +12,19 @@ public:
 
 	}
 
+	Texture *texture;
+
 	void Create() {
+		texture = new Texture("./res/textures/bricks2.jpg");
+		texture->Bind();
+
 		GameObject *p = new GameObject(10, 10);
 		AddGameObject(p->AddComponent(new Triangler()));
 	}
 
 	~Game() {
 		// Dont delete here gameobjects or components on the stage.
+		delete texture;
 	}
 };
 

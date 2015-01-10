@@ -3,11 +3,13 @@
 
 #include "Vertex.h"
 #include "HeapArray.h"
+#include <vector>
 
 class Mesh {
 private:
-	GLuint vbo;
 	GLuint vao;
+	GLuint vboPos;
+	GLuint vboTex;
 
 public:
 	Mesh(util::HeapArray<Vertex*> &vertices);

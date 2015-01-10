@@ -5,7 +5,6 @@
 #include "Vertex.h"
 #include "Mesh.h"
 #include "HeapArray.h"
-#include <iostream>
 
 class Triangler : public Component {
 private:

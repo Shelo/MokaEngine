@@ -1,7 +1,7 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include "GL\glew.h"
+#include "GL/glew.h"
 #include "glm/vec3.hpp"
 #include "glm/vec2.hpp"
 

@@ -6,11 +6,11 @@ Triangler::~Triangler() {
 
 void Triangler::Create() {
 	util::HeapArray<Vertex*> vs = util::HeapArray<Vertex*>::New({
-		new Vertex(-1, -1, 0),
-		new Vertex(1, -1, 0),
-		new Vertex(0, 1, 0),
+		new Vertex(-1, -1, 0, 0, 0),
+		new Vertex(1, -1, 0, 1, 0),
+		new Vertex(0, 1, 0, 0.5, 1),
 	});
-
+	
 	mesh = new Mesh(vs);
 }
 
