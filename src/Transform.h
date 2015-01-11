@@ -7,22 +7,25 @@
 
 class Transform {
 private:
-	glm::vec3 *rotation;
-	glm::vec3 *position;
-	glm::vec3 *scale;
+	glm::vec3 rotation;
+	glm::vec3 position;
+	glm::vec3 scale;
 public:
-	Transform(glm::vec3 *position, glm::vec3 *scale, glm::vec3 *rotation);
-	
-	Transform(float x, float y, float z);
-	Transform(float x, float y);
+	Transform(glm::vec3& _position, glm::vec3& _scale, glm::vec3& _rotation) :
+		position(_position),
+		scale(_scale),
+		rotation(_rotation) {}
+
+	Transform(float x, float y, float z) :
+		position(x, y, z),
+		scale(1, 1, 1),
+		rotation(0, 0, 0) {}
 
 	glm::mat4 GetModel() const;
 
-	glm::vec3* GetPosition();
-	glm::vec3* GetRotation();
-	glm::vec3* GetScale();
-
-	~Transform();
+	inline glm::vec3& GetPosition()	 { return position; }
+	inline glm::vec3& GetRotation()	 { return rotation; }
+	inline glm::vec3& GetScale()	 { return scale; }
 };
 
 #endif

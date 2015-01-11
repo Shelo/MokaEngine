@@ -2,14 +2,15 @@
 
 namespace core {
 	Core::Core(GLuint width, GLuint height, GLfloat frameCap, BaseGame *game) :
-		daemon(false)
+		daemon(false),
+
 	{
 		this->frameTime = 1.0f / frameCap;
 		this->height = height;
 		this->width = width;
 		this->game = game;
 
-		if(glfwInit() == false) {
+		if(glfwInit() == 0) {
 			std::cerr << "GLFW failed at initialization." << std::endl;
 		}
 	}

@@ -1,10 +1,6 @@
 #include "GameObject.h"
 #include <iostream>
 
-GameObject::GameObject(float x, float y) {
-	transform = new Transform(x, y);
-}
-
 GameObject::~GameObject() {
 	for(size_t i = 0; i < components.size(); i++)
 		delete components[i];
@@ -14,8 +10,6 @@ GameObject::~GameObject() {
 
 	components.clear();
 	children.clear();
-
-	delete transform;
 }
 
 GameObject* GameObject::AddChild(GameObject *gameObject) {
@@ -32,11 +26,6 @@ GameObject* GameObject::AddComponent(Component *component) {
 int GameObject::GetChildCount() {
 	return children.size();
 }
-
-Transform* GameObject::GetTransform() {
-	return transform;
-}
-
 
 void GameObject::Create() {
 	for(size_t i = 0; i < components.size(); i++)

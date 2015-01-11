@@ -6,9 +6,6 @@ class GameObject;
 
 class Component {
 public:
-	Component();
-	virtual ~Component();
-
 	virtual void Create() {}
 	virtual void Update() {}
 	virtual void Render(Shader *shader) {}
@@ -16,10 +13,10 @@ public:
 	void SetGameObject(GameObject *gameObject);
 
 	GameObject* GetGameObject();
-	Transform* GetTransform();
+	Transform& GetTransform();
+
 private:
 	GameObject *gameObject;
-	Transform *transform;
 };
 
 #endif

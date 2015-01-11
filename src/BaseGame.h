@@ -6,10 +6,10 @@
 
 class BaseGame {
 private:
-	GameObject *root;
+	GameObject root;
 public:
-	BaseGame();
-	~BaseGame();
+	BaseGame() :
+			root(0, 0) {}
 
 	virtual void Create() = 0;
 

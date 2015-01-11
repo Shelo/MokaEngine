@@ -5,23 +5,28 @@
 #include <vector>
 
 class GameObject {
+private:
+	std::vector<Component*> components;
+	std::vector<GameObject*> children;
+	Transform transform;
 public:
-	GameObject(float x, float y);
+	GameObject(float x, float y) :
+			transform(x, y, 0) {}
+
+	GameObject() :
+			transform(0, 0, 0) {}
+
 	virtual ~GameObject();
 
 	GameObject* AddComponent(Component *component);
 	GameObject* AddChild(GameObject *gameObject);
 
 	int GetChildCount();
-	Transform* GetTransform();
+	Transform& GetTransform() { return transform; }
 
 	void Create();
 	void Update();
 	void Render(Shader *shader);
-private:
-	std::vector<Component*> components;
-	std::vector<GameObject*> children;
-	Transform *transform;
 };
 
 #endif

@@ -5,13 +5,14 @@
 class Transformer : public Component {
 public:
 	void Create() {
-		GetTransform()->GetScale()->x *= 0.5f;
-		GetTransform()->GetScale()->y *= 0.5f;
-		GetTransform()->GetScale()->z *= 0.5f;
+		GetTransform().GetScale().x *= 0.25f;
+		GetTransform().GetScale().y *= 0.5f;
+		GetTransform().GetScale().z *= 0.5f;
 	}
 
 	void Update() {
-		GetTransform()->GetRotation()->y += 3.1415f / 1500.0f;
+		GetTransform().GetRotation().x += 3.1415f / 1500.0f;
+		GetTransform().GetRotation().z += 3.1415f / 1500.0f;
 	}
 };
 
