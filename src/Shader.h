@@ -16,18 +16,22 @@ public:
 	void Bind();
 	void Update(const Transform &transform);
 
-private:
-	GLuint fragment;
-	GLuint program;
-	GLuint vertex;
-	
+
+	void SetUniform(GLint location, const glm::mat4 mvp);
+
 	enum {
 		U_TRANSFORM,
+		U_MVP,
 
 		NUM_UNIFORMS
 	};
 
-	GLuint uniforms[NUM_UNIFORMS];
+private:
+	GLuint fragment;
+	GLuint program;
+	GLuint vertex;
+
+	GLint uniforms[NUM_UNIFORMS];
 };
 
 #endif

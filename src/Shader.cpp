@@ -62,7 +62,7 @@ Shader::Shader(const std::string& filePath) {
 	glAttachShader(program, vertex);
 	glAttachShader(program, fragment);
 
-	// this is not extremelly necessary, but can prevent some weird bugs.
+	// this is not extremely necessary, but can prevent some weird bugs.
 	glBindAttribLocation(program, 0, "position0");
 	glBindAttribLocation(program, 1, "texCoord0");
 
@@ -73,6 +73,7 @@ Shader::Shader(const std::string& filePath) {
 	util::CheckShaderError(program, GL_VALIDATE_STATUS, true, "Error: Shader validation failed.");
 
 	uniforms[U_TRANSFORM] = glGetUniformLocation(program, "u_transform");
+	uniforms[U_MVP] = glGetUniformLocation(program, "u_mvp");
 }
 
 Shader::~Shader() {
@@ -91,5 +92,9 @@ void Shader::Bind() {
 
 void Shader::Update(const Transform &transform) {
 	glm::mat4 model = transform.GetModel();
-	glUniformMatrix4fv(uniforms[U_TRANSFORM], 1, false, &model[0][0]);
+	glUniformMatrix4fv(uniforms[U_TRANSFORM], 1, GL_FALSE, &model[0][0]);
+}
+
+void Shader::SetUniform(GLint location, const glm::mat4 mvp) {
+	glUniformMatrix4fv(uniforms[U_MVP], 1, GL_FALSE, &mvp[0][0]);
 }

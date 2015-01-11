@@ -43,7 +43,7 @@ void GameObject::Update() {
 		children[i]->Update();
 }
 
-void GameObject::Render(Shader *shader) {
+void GameObject::Render(Shader &shader) {
 	for(size_t i = 0; i < components.size(); i++)
 		components[i]->Render(shader);
 

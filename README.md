@@ -1,4 +1,4 @@
-# MokaEngine
+# Moka Engine
 
 ## Steps
 Updated: 09-01-2015
@@ -17,9 +17,10 @@ Updated: 09-01-2015
 * Been able to draw a textured mesh with the Shader. [**Done**]
 * Create rendering engine. [**Done**]
 * Been able to send uniforms. [**Semi-Done**]
-* Create orthogonal and perspective views.
-* Create camera component.
-* Relate camera with the rendering engine.
+* Create orthogonal and perspective views. [**Done**]
+* Create camera component. [**Semi-Done**: apply rotations and stuff..]
+* Relate camera with the rendering engine. [**Done**]
 * Get translation, rotation and scale matrices from the transform. [**Done**]
 * Been able to translate, scale and rotate a simple image [**Done**]
 * Create an advanced Game Loop.
+* Set a default Orthographic Camera in case user doesn't needs other. [**Done**]

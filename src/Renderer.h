@@ -3,18 +3,25 @@
 
 #include "Shader.h"
 #include "BaseGame.h"
+#include "Camera.h"
 
 class Renderer {
 private:
-	Shader *shader;
+	Shader shader;
+	static Camera *camera;
+
+	void DefaultCamera();
+
 public:
-	Renderer();
-	~Renderer();
+	Renderer() :
+		shader("res/shaders/basicShader") {}
 
 	void Create();
 	void Render(BaseGame *game);
 
-	Shader* GetShader();
+	Shader& GetShader() { return shader; }
+
+	static void SetCamera(Camera *camera);
 };
 
 #endif

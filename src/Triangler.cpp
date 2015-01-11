@@ -14,7 +14,7 @@ void Triangler::Create() {
 	mesh = new Mesh(vs);
 }
 
-void Triangler::Render(Shader *shader) {
-	shader->Update(GetTransform());
+void Triangler::Render(Shader &shader) {
+	shader.Update(GetTransform());
 	mesh->Draw();
 }

@@ -1,5 +1,8 @@
 #include "Display.h"
 
+GLuint Display::height = 0;
+GLuint Display::width = 0;
+
 Display::Display(GLuint width, GLuint height, std::string title) {
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -7,6 +10,9 @@ Display::Display(GLuint width, GLuint height, std::string title) {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+
+	Display::height = height;
+	Display::width = width;
 
 	if(!window) {
 		glfwTerminate();
@@ -25,4 +31,5 @@ bool Display::IsCloseRequested() {
 }
 
 Display::~Display() {
+
 }

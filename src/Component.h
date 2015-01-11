@@ -8,7 +8,7 @@ class Component {
 public:
 	virtual void Create() {}
 	virtual void Update() {}
-	virtual void Render(Shader *shader) {}
+	virtual void Render(Shader &shader) {}
 
 	void SetGameObject(GameObject *gameObject);
 
@@ -16,7 +16,7 @@ public:
 	Transform& GetTransform();
 
 private:
-	GameObject *gameObject;
+	GameObject *gameObject = NULL;
 };
 
 #endif

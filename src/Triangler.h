@@ -14,7 +14,7 @@ public:
 	virtual ~Triangler();
 
 	void Create();
-	void Render(Shader *shader);
+	void Render(Shader &shader);
 };
 
 #endif

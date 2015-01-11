@@ -10,6 +10,9 @@ private:
 	std::vector<GameObject*> children;
 	Transform transform;
 public:
+	GameObject(float x, float y, float z) :
+			transform(x, y, z) {}
+
 	GameObject(float x, float y) :
 			transform(x, y, 0) {}
 
@@ -26,7 +29,7 @@ public:
 
 	void Create();
 	void Update();
-	void Render(Shader *shader);
+	void Render(Shader &shader);
 };
 
 #endif

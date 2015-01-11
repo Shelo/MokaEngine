@@ -15,7 +15,7 @@ public:
 
 	virtual void ICreate() final;
 	virtual void Update() final;
-	virtual void Render(Shader *shader) final;
+	virtual void Render(Shader &shader) final;
 
 	void AddGameObject(GameObject *child);
 	void AddComponent(Component *component);

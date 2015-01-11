@@ -13,8 +13,14 @@ public:
 	void Update();
 	bool IsCloseRequested();
 	~Display();
+
+	static GLuint GetWidth() { return width; }
+	static GLuint GetHeight() { return height; }
+
 private:
 	GLFWwindow *window;
+	static GLuint height;
+	static GLuint width;
 };
 
 #endif

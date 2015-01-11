@@ -1,12 +1,7 @@
 #include "Renderer.h"
+#include "Display.h"
 
-Renderer::Renderer() {
-	shader = new Shader("res/shaders/basicShader");
-}
-
-Renderer::~Renderer() {
-	delete shader;
-}
+Camera* Renderer::camera = NULL;
 
 void Renderer::Create() {
 	glFrontFace(GL_CW);
@@ -15,11 +10,20 @@ void Renderer::Create() {
 }
 
 void Renderer::Render(BaseGame *game) {
+	// create a default camera if none is present.
+	if(Renderer::camera == NULL)
+		DefaultCamera();
+
 	glClear(GL_COLOR_BUFFER_BIT);
-	shader->Bind();
+	shader.SetUniform(Shader::U_MVP, camera->GetMVP());
+	shader.Bind();
 	game->Render(shader);
 }
 
-Shader* Renderer::GetShader() {
-	return shader;
+void Renderer::SetCamera(Camera *camera) {
+	Renderer::camera = camera;
+}
+
+void Renderer::DefaultCamera() {
+	Renderer::camera = new Camera(0, Display::GetWidth(), 0, Display::GetHeight(), -1.0f, 1.0f);
 }

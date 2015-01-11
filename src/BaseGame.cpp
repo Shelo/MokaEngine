@@ -13,7 +13,7 @@ void BaseGame::Update() {
 	root.Update();
 }
 
-void BaseGame::Render(Shader *shader) {
+void BaseGame::Render(Shader &shader) {
 	root.Render(shader);
 }
 
