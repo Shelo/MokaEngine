@@ -1,1 +1,9 @@
+<<<<<<< HEAD
 .idea/
+=======
+Debug/
+Project2.vcxproj
+Project2.vcxproj.filters
+include/
+lib/
+>>>>>>> 3ef377a769b287de0d5c00b006d08d7e4aefc667
