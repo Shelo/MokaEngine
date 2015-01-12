@@ -1,7 +1,9 @@
 # Moka Engine
 
+Currently the engine has a **BIG BUG**, I'm working on it.
+
 ## Steps
-Updated: 11-01-2015
+Updated: 12-01-2015
 
 * [**Done**] Create Core Engine.
 * [**Done**] Create Display. 
@@ -30,4 +32,4 @@ Updated: 11-01-2015
 * Send vertex normals to shader.
 * Use indices when defining the mesh.
 * [**Done**] Enable Keyboard Input.
-* [**Done**] Enable Mouse Input.
+* Enable Mouse Input.

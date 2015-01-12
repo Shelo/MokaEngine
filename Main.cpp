@@ -11,16 +11,30 @@ public:
 
 	void Update(double delta) {
 		if(Input::GetKey(GLFW_KEY_A))
-			GetTransform().GetPosition().x -= delta * 10;
+			GetTransform().Move(GetTransform().GetLeft(), (float) delta * 10);
 
 		if(Input::GetKey(GLFW_KEY_D))
-			GetTransform().GetPosition().x += delta * 10;
+			GetTransform().Move(GetTransform().GetRight(), (float) delta * 10);
 
 		if(Input::GetKey(GLFW_KEY_W))
-			GetTransform().GetPosition().z -= delta * 10;
+			GetTransform().Move(GetTransform().GetForward(), (float) delta * 10);
 
 		if(Input::GetKey(GLFW_KEY_S))
-			GetTransform().GetPosition().z += delta * 10;
+			GetTransform().Move(GetTransform().GetBack(), (float) delta * 10);
+
+
+
+		if(Input::GetKey(GLFW_KEY_RIGHT))
+			GetTransform().Rotate(glm::vec3(0, 1, 0), (float) delta);
+
+		if(Input::GetKey(GLFW_KEY_LEFT))
+			GetTransform().Rotate(glm::vec3(0, -1, 0), (float) delta);
+
+		if(Input::GetKey(GLFW_KEY_UP))
+			GetTransform().Rotate(GetTransform().GetRight(), (float) delta);
+
+		if(Input::GetKey(GLFW_KEY_DOWN))
+			GetTransform().Rotate(GetTransform().GetLeft(), (float) delta);
 	}
 };
 
@@ -61,21 +75,23 @@ public:
 		texture->Bind();
 
 		GameObject *p = new GameObject(0, 0, 0);
+		p->GetTransform().SetScale(100, 1, 100);
 		AddGameObject(p->AddComponent(new OnePlane()));
 
-		p->GetTransform().SetScale(100, 1, 100);
-
-		GameObject *w = new GameObject(-30, 0, -30);
+		GameObject *w = new GameObject(-30, 0, -10);
 		AddGameObject(w->AddComponent(new Triangler()));
 
-		GameObject *j = new GameObject( 30, 0, -30);
+		GameObject *j = new GameObject( 30, 0, -10);
 		AddGameObject(j->AddComponent(new Triangler()));
+
+		GameObject *k = new GameObject( 0, 0, -50);
+		AddGameObject(k->AddComponent(new Triangler()));
 
 		// This defines a new camera attached to a game object, this camera will follow the position of the
 		// GameObject.
 		// Note: if you want to uncomment this you'll have to adjust the size within the Transformer component and
 		// the position of the game object.
-		GameObject *q = new GameObject(0.0f, 5.0f, 40.0f);
+		GameObject *q = new GameObject(0.0f, 15.0f, 40.0f);
 		q->AddComponent(new CameraMove());
 		Camera *camera = new Camera(70.0f, 1.3333f, 0.01f, 1000.0f);
 		camera->SetCurrent();
