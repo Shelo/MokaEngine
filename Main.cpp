@@ -23,12 +23,11 @@ public:
 			GetTransform().Move(GetTransform().GetBack(), (float) delta * 10);
 
 
-
 		if(Input::GetKey(GLFW_KEY_RIGHT))
-			GetTransform().Rotate(glm::vec3(0, 1, 0), (float) delta);
+			GetTransform().Rotate(glm::vec3(0, -1, 0), (float) delta);
 
 		if(Input::GetKey(GLFW_KEY_LEFT))
-			GetTransform().Rotate(glm::vec3(0, -1, 0), (float) delta);
+			GetTransform().Rotate(glm::vec3(0, 1, 0), (float) delta);
 
 		if(Input::GetKey(GLFW_KEY_UP))
 			GetTransform().Rotate(GetTransform().GetRight(), (float) delta);

@@ -1,7 +1,5 @@
 # Moka Engine
 
-Currently the engine has a **BIG BUG**, I'm working on it.
-
 ## Steps
 Updated: 12-01-2015
 
@@ -33,3 +31,9 @@ Updated: 12-01-2015
 * Use indices when defining the mesh.
 * [**Done**] Enable Keyboard Input.
 * Enable Mouse Input.
+
+## Historical bugs
+
+Do not repeat these again.
+
+* 12-01-2015: **glm::quat** definition is: w, x, y, z. NOT x, y, z, w as commonly is.

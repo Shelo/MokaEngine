@@ -18,7 +18,6 @@ public:
         perspective(false) {}
 
     glm::mat4 GetMVP();
-
     void SetCurrent();
 };
 

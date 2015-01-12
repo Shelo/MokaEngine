@@ -21,7 +21,7 @@ public:
 	Transform(float x, float y, float z) :
 		position(x, y, z),
 		scale(1, 1, 1),
-		rotation(0, 0, 0, 1) {}
+		rotation(1, 0, 0, 0) {}
 
 	glm::mat4 GetModel() const;
 
@@ -31,7 +31,6 @@ public:
 
 	void Move(const glm::vec3 dir, const float amount) {
 		std::cout << dir.x << std::endl;
-
 		position += dir * amount;
 	}
 
@@ -42,6 +41,7 @@ public:
 	}
 
 	inline void Rotate(const glm::vec3 axis, const float radians) {
+		// this is OK.
 		GetRotation() = glm::normalize(glm::angleAxis(radians, axis) * GetRotation());
 	}
 
