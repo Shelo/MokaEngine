@@ -108,6 +108,9 @@ namespace core {
 				renderer->Render(game);
 				display->Update();
 			} else if(lowCPU)
+				// compile time if statement, if lowCPU setting is enabled, the machine is intended
+				// to sleep for at least 1 millisecond. Shouldn't be used in a release, since is not
+				// guaranteed that this will sleep 1 millisecond and could affect the experience.
 				#if defined(WIN32)
 				Sleep(1);
 				#elif defined(UNIX)
