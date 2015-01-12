@@ -100,6 +100,10 @@ int main(int argc, char** argv) {
 
 	glClearColor(0, 0, 0, 1);
 
+	// this method activates a way to reduce drastically the cpu usage. Anyway, is not recommended and
+	// shouldn't be used in a release, use it for dev only.
+	core.SetLowCPU(true);
+
 	core.Start();
 	return 0;
 }

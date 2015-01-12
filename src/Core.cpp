@@ -1,6 +1,12 @@
 #include "Core.h"
 #include "Input.h"
 
+#if defined(WIN32)
+#include "windows.h"
+#elif defined(UNIX)
+#include <unistd.h>
+#endif
+
 namespace core {
 	Core::Core(GLuint width, GLuint height, GLfloat frameCap, BaseGame *game) :
 		daemon(false)
@@ -9,6 +15,8 @@ namespace core {
 		this->height = height;
 		this->width = width;
 		this->game = game;
+
+		lowCPU = false;
 
 		if(glfwInit() == 0) {
 			std::cerr << "GLFW failed at initialization." << std::endl;
@@ -99,7 +107,12 @@ namespace core {
 				renderFrames++;
 				renderer->Render(game);
 				display->Update();
-			}
+			} else if(lowCPU)
+				#if defined(WIN32)
+				Sleep(1);
+				#elif defined(UNIX)
+				usleep(1000);
+				#endif
 
 			if(accSeconds >= 1) {
 				std::cout << renderFrames << " fps, " << updateFrames << " ups." << std::endl;

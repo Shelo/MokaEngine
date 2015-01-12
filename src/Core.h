@@ -15,7 +15,9 @@ namespace core {
 		void Start();
 		void Stop();
 
-		void GetDisplaySettings();
+		void SetLowCPU(bool _lowCPU) {
+			lowCPU = _lowCPU;
+		}
 
 	private:
 		void Run();
@@ -28,6 +30,8 @@ namespace core {
 		GLuint height;
 		GLuint width;
 		bool daemon;
+
+		bool lowCPU;
 	};
 
 }
