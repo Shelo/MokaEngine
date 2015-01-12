@@ -7,7 +7,7 @@ class GameObject;
 class Component {
 public:
 	virtual void Create() {}
-	virtual void Update() {}
+	virtual void Update(double delta) {}
 	virtual void Render(Shader &shader) {}
 
 	void SetGameObject(GameObject *gameObject);

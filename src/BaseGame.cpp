@@ -9,8 +9,8 @@ void BaseGame::ICreate() {
 	root.Create();
 }
 
-void BaseGame::Update() {
-	root.Update();
+void BaseGame::Update(double delta) {
+	root.Update(delta);
 }
 
 void BaseGame::Render(Shader &shader) {

@@ -35,12 +35,12 @@ void GameObject::Create() {
 		children[i]->Create();
 }
 
-void GameObject::Update() {
+void GameObject::Update(double delta) {
 	for(size_t i = 0; i < components.size(); i++)
-		components[i]->Update();
+		components[i]->Update(delta);
 
 	for(size_t i = 0; i < children.size(); i++)
-		children[i]->Update();
+		children[i]->Update(delta);
 }
 
 void GameObject::Render(Shader &shader) {

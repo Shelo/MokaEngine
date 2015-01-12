@@ -14,7 +14,7 @@ public:
 	virtual void Create() = 0;
 
 	virtual void ICreate() final;
-	virtual void Update() final;
+	virtual void Update(double delta) final;
 	virtual void Render(Shader &shader) final;
 
 	void AddGameObject(GameObject *child);

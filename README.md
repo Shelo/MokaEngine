@@ -22,5 +22,5 @@ Updated: 11-01-2015
 * Relate camera with the rendering engine. [**Done**]
 * Get translation, rotation and scale matrices from the transform. [**Done**]
 * Been able to translate, scale and rotate a simple image [**Done**]
-* Create an advanced Game Loop.
+* Create an advanced Game Loop. [**Done**]
 * Set a default Orthographic Camera in case user doesn't needs other. [**Done**]

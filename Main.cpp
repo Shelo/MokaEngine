@@ -10,8 +10,8 @@ public:
 		GetTransform().GetScale().z *= 100.0f;
 	}
 
-	void Update() {
-		GetTransform().GetRotation().z += 3.1415f / 1500.0f;
+	void Update(double delta) {
+		GetTransform().GetRotation().z += 3.1415f * delta;
 	}
 };
 
@@ -51,6 +51,9 @@ public:
 };
 
 int main(int argc, char** argv) {
+	// Here i'll limit the Frame Rate to 60 fps, just so process is not that expensive,
+	// you could try 5000 per example and surely with work. Note that at 60, you'll probably
+	// get 60 FPS and 60 UPS.
 	core::Core core(640, 480, 60, new Game());
 	core.CreateDisplay("Moka Engine");
 	core.Start();

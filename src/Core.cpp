@@ -44,13 +44,65 @@ namespace core {
 	}
 
 	void Core::Run() {
-		// TODO: create a proper main loop.
+		// total time accumulated in the game.
+		double time = 0.0;
 
-		do {
-			game->Update();
-			renderer->Render(game);
-			display->Update();
-		} while(!display->IsCloseRequested());
+		// fixed delta time.
+		const double delta = frameTime;
+
+		// current time var and accumulator.
+		double currentTime = glfwGetTime();
+		double accumulator = 0.0;
+
+		// this is just to show some statics.
+		int updateFrames = 0;
+		int renderFrames = 0;
+		double accSeconds = 0;
+
+		while(daemon) {
+			// indicates if we should render or not.
+			bool render = false;
+
+			// get the time that the render frame lasted.
+			double newTime = glfwGetTime();
+			double frameTime = newTime - currentTime;
+			currentTime = newTime;
+
+			// increase the accumulator by this frame time.
+			accumulator += frameTime;
+
+			// "spend" the accumulator time until is lower than the delta time.
+			// while we have time accumulated left, we update the scene.
+			while(accumulator > delta) {
+				// we'll need to render only if we updated the scene... obviously.
+				render = true;
+
+				game->Update(delta);
+
+				// check if user closed the window.
+				if(display->IsCloseRequested())
+					daemon = false;
+
+				// subtract used delta time and add it to the game time.
+				accumulator -= delta;
+				time += delta;
+				accSeconds += delta;
+
+				updateFrames++;
+			}
+
+			// when the accumulator is over, render and update the display.
+			if(render) {
+				renderFrames++;
+				renderer->Render(game);
+				display->Update();
+			}
+
+			if(accSeconds >= 1) {
+				std::cout << renderFrames << " fps, " << updateFrames << " ups." << std::endl;
+				accSeconds = renderFrames = updateFrames = 0;
+			}
+		}
 
 		Stop();
 	}

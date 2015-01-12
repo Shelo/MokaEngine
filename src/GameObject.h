@@ -28,7 +28,7 @@ public:
 	Transform& GetTransform() { return transform; }
 
 	void Create();
-	void Update();
+	void Update(double delta);
 	void Render(Shader &shader);
 };
 
