@@ -1,4 +1,5 @@
 #include "Core.h"
+#include "Input.h"
 
 namespace core {
 	Core::Core(GLuint width, GLuint height, GLfloat frameCap, BaseGame *game) :
@@ -79,6 +80,8 @@ namespace core {
 
 				game->Update(delta);
 
+				Input::Update();
+
 				// check if user closed the window.
 				if(display->IsCloseRequested())
 					daemon = false;
@@ -111,5 +114,4 @@ namespace core {
 		daemon = false;
 		glfwTerminate();
 	}
-
 } /* namespace core */

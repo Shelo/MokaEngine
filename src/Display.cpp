@@ -1,4 +1,5 @@
 #include "Display.h"
+#include "Input.h"
 
 GLuint Display::height = 0;
 GLuint Display::width = 0;
@@ -19,6 +20,8 @@ Display::Display(GLuint width, GLuint height, std::string title) {
 	}
 
 	glfwMakeContextCurrent(window);
+
+	Input::Create(window);
 }
 
 void Display::Update() {
@@ -27,7 +30,7 @@ void Display::Update() {
 }
 
 bool Display::IsCloseRequested() {
-	return glfwWindowShouldClose(window);
+	return (bool) glfwWindowShouldClose(window);
 }
 
 Display::~Display() {

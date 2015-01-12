@@ -26,6 +26,12 @@ public:
 	inline glm::vec3& GetPosition()	 { return position; }
 	inline glm::vec3& GetRotation()	 { return rotation; }
 	inline glm::vec3& GetScale()	 { return scale; }
+
+	inline void SetScale(float x, float y, float z) {
+		scale.x = x;
+		scale.y = y;
+		scale.z = z;
+	}
 };
 
 #endif

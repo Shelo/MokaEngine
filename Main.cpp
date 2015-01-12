@@ -1,17 +1,54 @@
 #include "Core.h"
 #include "Texture.h"
 #include "Triangler.h"
+#include "Input.h"
 
-class Transformer : public Component {
+class CameraMove : public Component {
 public:
 	void Create() {
-		GetTransform().GetScale().x *= 100.0f;
-		GetTransform().GetScale().y *= 100.0f;
-		GetTransform().GetScale().z *= 100.0f;
+
 	}
 
 	void Update(double delta) {
-		GetTransform().GetRotation().z += 3.1415f * delta;
+		if(Input::GetKey(GLFW_KEY_A))
+			GetTransform().GetPosition().x -= delta * 10;
+
+		if(Input::GetKey(GLFW_KEY_D))
+			GetTransform().GetPosition().x += delta * 10;
+
+		if(Input::GetKey(GLFW_KEY_W))
+			GetTransform().GetPosition().z -= delta * 10;
+
+		if(Input::GetKey(GLFW_KEY_S))
+			GetTransform().GetPosition().z += delta * 10;
+	}
+};
+
+class OnePlane : public Component {
+private:
+	Mesh *mesh;
+public:
+	~OnePlane() {
+		delete mesh;
+	}
+
+	void Create() {
+		util::HeapArray<Vertex*> vs = util::HeapArray<Vertex*>::New ({
+				new Vertex(-1, 0, -1, 0, 0),
+				new Vertex( 1, 0,  1, 10, 10),
+				new Vertex(-1, 0,  1, 0, 10),
+
+				new Vertex(-1, 0, -1, 0, 0),
+				new Vertex( 1, 0, -1, 10, 0),
+				new Vertex( 1, 0,  1, 10, 10),
+		});
+
+		mesh = new Mesh(vs);
+	}
+
+	void Render(Shader &shader) {
+		shader.Update(GetTransform());
+		mesh->Draw();
 	}
 };
 
@@ -23,29 +60,33 @@ public:
 		texture = new Texture("res/textures/bricks2.jpg");
 		texture->Bind();
 
-		GameObject *p = new GameObject(Display::GetWidth() / 2, Display::GetHeight() / 2);
-		p->AddComponent(new Transformer());
-		AddGameObject(p->AddComponent(new Triangler()));
+		GameObject *p = new GameObject(0, 0, 0);
+		AddGameObject(p->AddComponent(new OnePlane()));
 
-		/*
+		p->GetTransform().SetScale(100, 1, 100);
+
+		GameObject *w = new GameObject(-30, 0, -30);
+		AddGameObject(w->AddComponent(new Triangler()));
+
+		GameObject *j = new GameObject( 30, 0, -30);
+		AddGameObject(j->AddComponent(new Triangler()));
+
 		// This defines a new camera attached to a game object, this camera will follow the position of the
 		// GameObject.
-		// Note: if you want to uncomment this you'll have to adjust the size within the Transformer component.
-		GameObject *q = new GameObject(0.0f, 0.0f, -3.0f);
-
+		// Note: if you want to uncomment this you'll have to adjust the size within the Transformer component and
+		// the position of the game object.
+		GameObject *q = new GameObject(0.0f, 5.0f, 40.0f);
+		q->AddComponent(new CameraMove());
 		Camera *camera = new Camera(70.0f, 1.3333f, 0.01f, 1000.0f);
 		camera->SetCurrent();
-
-		std::cout << camera << std::endl;
 
 		q->AddComponent(camera);
 
 		AddGameObject(q);
-		*/
 	}
 
 	~Game() {
-		// Don't delete here GameObjects or components on the stage.
+		// Don't delete here GameObjects or Components, objects will delete them automatically.
 		delete texture;
 	}
 };
@@ -56,6 +97,9 @@ int main(int argc, char** argv) {
 	// get 60 FPS and 60 UPS.
 	core::Core core(640, 480, 60, new Game());
 	core.CreateDisplay("Moka Engine");
+
+	glClearColor(0, 0, 0, 1);
+
 	core.Start();
 	return 0;
 }

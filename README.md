@@ -11,7 +11,7 @@ Updated: 11-01-2015
 * [**Done**] Create Mesh and been able to draw something. 
 * [**Done**] Add texture support. 
 * [**Done**] Add texture mapping to the Mesh. 
-* [**Done**] Create GameLoop and sample Entity framwork. 
+* [**Done**] Create GameLoop and sample Entity framework. 
 * [**Done**] Create Transform. 
 * [**Done**] Create Shader. 
 * [**Done**] Been able to draw a textured mesh with the Shader. 
@@ -26,3 +26,8 @@ Updated: 11-01-2015
 * [**Done**] Set a default Orthographic Camera in case user doesn't needs other.
 * Automatic Uniforms.
 * Create framework for light system.
+* Create the "TRANSFORM HIERARCHY".
+* Send vertex normals to shader.
+* Use indices when defining the mesh.
+* [**Done**] Enable Keyboard Input.
+* [**Done**] Enable Mouse Input.

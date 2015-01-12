@@ -11,6 +11,7 @@ private:
 	GLuint vao;
 	GLuint vboPos;
 	GLuint vboTex;
+	GLuint count;
 
 public:
 	Mesh(util::HeapArray<Vertex*> &vertices);

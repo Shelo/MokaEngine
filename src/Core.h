@@ -14,6 +14,9 @@ namespace core {
 		void CreateDisplay(std::string title);
 		void Start();
 		void Stop();
+
+		void GetDisplaySettings();
+
 	private:
 		void Run();
 

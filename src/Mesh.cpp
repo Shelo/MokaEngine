@@ -1,12 +1,14 @@
 #include "Mesh.h"
 #include <vector>
 
-Mesh::Mesh(util::HeapArray<Vertex*> &vertices) {
+Mesh::Mesh(util::HeapArray<Vertex*> &vertices) :
+		count((GLuint) vertices.Size())
+	{
 	std::vector<glm::vec3> positions;
 	std::vector<glm::vec2> texCoords;
 
-	positions.reserve(vertices.Size());
-	texCoords.reserve(vertices.Size());
+	positions.reserve((size_t) vertices.Size());
+	texCoords.reserve((size_t) vertices.Size());
 
 	for(int i = 0; i < vertices.Size(); i++) positions.push_back(vertices[i]->GetPosition());
 	for(int i = 0; i < vertices.Size(); i++) texCoords.push_back(vertices[i]->GetTexCoord());
@@ -41,7 +43,7 @@ Mesh::Mesh(util::HeapArray<Vertex*> &vertices) {
 
 void Mesh::Draw() {
 	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, count);
 	glBindVertexArray(0);
 }
 

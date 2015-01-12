@@ -13,22 +13,20 @@ private:
 public:
     Camera(float fov, float aspect, float zNear, float zFar) :
         projection(glm::perspective(fov, aspect, zNear, zFar)),
-        forward(0.0f, 0.0f, 1.0f),
+        forward(0.0f, 0.0f, -1.0f),
         up(0.0f, 1.0f, 0.0f),
-        perspective(true)
-    {}
+        perspective(true) {}
 
     Camera(float left, float right, float bottom, float top, float zNear, float zFar) :
         projection(glm::ortho(left, right, bottom, top, zNear, zFar)),
-        forward(0.0f, 0.0f, 1.0f),
+        forward(0.0f, 0.0f, -1.0f),
         up(0.0f, 1.0f, 0.0f),
-        perspective(false)
-    {}
+        perspective(false) {}
 
     inline glm::mat4 GetMVP() {
         if(perspective)
             return projection *
-                    glm::lookAt(GetTransform().GetPosition() * -1.0f, GetTransform().GetPosition() + forward, up);
+                    glm::lookAt(GetTransform().GetPosition(), GetTransform().GetPosition() + forward, up);
         else
             return projection;
     }
