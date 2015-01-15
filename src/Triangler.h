@@ -8,6 +8,7 @@
 
 class Triangler : public Component {
 private:
+	Material *material;
 	Mesh *mesh;
 public:
 	Triangler() {}

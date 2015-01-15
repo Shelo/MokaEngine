@@ -30,7 +30,12 @@ Updated: 12-01-2015
 * Send vertex normals to shader.
 * Use indices when defining the mesh.
 * [**Done**] Enable Keyboard Input.
-* Enable Mouse Input.
+* [**Done**] Enable Mouse Input.
+* [**Done**] Create the material class.
+* Have a way to import mesh. (Probably with Assimp).
+* Calc faces tangents.
+* Implement Normal Mapping.
+* Implement Parallax Displacement Mapping.
 
 ## Historical bugs
 

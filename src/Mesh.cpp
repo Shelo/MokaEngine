@@ -2,8 +2,8 @@
 #include <vector>
 
 Mesh::Mesh(util::HeapArray<Vertex*> &vertices) :
-		count((GLuint) vertices.Size())
-	{
+		count((GLuint) vertices.Size()) {
+
 	std::vector<glm::vec3> positions;
 	std::vector<glm::vec2> texCoords;
 

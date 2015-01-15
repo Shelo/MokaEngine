@@ -90,8 +90,10 @@ void Shader::Bind() {
 	glUseProgram(program);
 }
 
-void Shader::Update(const Transform &transform) {
+void Shader::Update(const Transform &transform, Material& material) {
 	glm::mat4 model = transform.GetModel();
+	material.GetTexture().Bind();
+
 	glUniformMatrix4fv(uniforms[U_TRANSFORM], 1, GL_FALSE, &model[0][0]);
 }
 

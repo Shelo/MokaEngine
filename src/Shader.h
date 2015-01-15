@@ -7,6 +7,7 @@
 #define GLEW_STATIC
 #include "GL/glew.h"
 #include "Transform.h"
+#include "Material.h"
 
 class Shader {
 public:
@@ -14,8 +15,7 @@ public:
 	virtual ~Shader();
 
 	void Bind();
-	void Update(const Transform &transform);
-
+	void Update(const Transform& transform, Material& material);
 
 	void SetUniform(GLint location, const glm::mat4 mvp);
 

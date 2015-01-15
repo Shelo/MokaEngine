@@ -30,7 +30,6 @@ public:
 	inline glm::vec3& GetScale()	 { return scale; }
 
 	void Move(const glm::vec3 dir, const float amount) {
-		std::cout << dir.x << std::endl;
 		position += dir * amount;
 	}
 
@@ -41,7 +40,6 @@ public:
 	}
 
 	inline void Rotate(const glm::vec3 axis, const float radians) {
-		// this is OK.
 		GetRotation() = glm::normalize(glm::angleAxis(radians, axis) * GetRotation());
 	}
 

@@ -1,12 +1,11 @@
 #include "Core.h"
-#include "Texture.h"
 #include "Triangler.h"
 #include "Input.h"
 
 class CameraMove : public Component {
 public:
 	void Create() {
-
+		Input::SetCursorLocked(true);
 	}
 
 	void Update(double delta) {
@@ -22,26 +21,21 @@ public:
 		if(Input::GetKey(GLFW_KEY_S))
 			GetTransform().Move(GetTransform().GetBack(), (float) delta * 10);
 
+		GetTransform().Rotate(glm::vec3(0, -1, 0), (float const) (Input::GetDeltaX() * delta * 0.2f));
+		GetTransform().Rotate(GetTransform().GetLeft(), (float const) (Input::GetDeltaY() * delta * 0.2f));
 
-		if(Input::GetKey(GLFW_KEY_RIGHT))
-			GetTransform().Rotate(glm::vec3(0, -1, 0), (float) delta);
-
-		if(Input::GetKey(GLFW_KEY_LEFT))
-			GetTransform().Rotate(glm::vec3(0, 1, 0), (float) delta);
-
-		if(Input::GetKey(GLFW_KEY_UP))
-			GetTransform().Rotate(GetTransform().GetRight(), (float) delta);
-
-		if(Input::GetKey(GLFW_KEY_DOWN))
-			GetTransform().Rotate(GetTransform().GetLeft(), (float) delta);
+		if(Input::GetMouseDown(GLFW_MOUSE_BUTTON_1))
+			Input::ToggleCursorLocked();
 	}
 };
 
 class OnePlane : public Component {
 private:
+	Material *material;
 	Mesh *mesh;
 public:
 	~OnePlane() {
+		delete material;
 		delete mesh;
 	}
 
@@ -57,30 +51,29 @@ public:
 		});
 
 		mesh = new Mesh(vs);
+
+		material = new Material(new Texture("res/textures/grass.jpg"), 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	void Render(Shader &shader) {
-		shader.Update(GetTransform());
+		shader.Update(GetTransform(), *material);
 		mesh->Draw();
 	}
 };
 
 class Game : public BaseGame {
 public:
-	Texture *texture;
-
 	void Create() {
-		texture = new Texture("res/textures/bricks2.jpg");
-		texture->Bind();
-
+		// Here i'll create the plane of the scene, this is done by the OnePlane component.
 		GameObject *p = new GameObject(0, 0, 0);
 		p->GetTransform().SetScale(100, 1, 100);
 		AddGameObject(p->AddComponent(new OnePlane()));
 
-		GameObject *w = new GameObject(-30, 0, -10);
+		// 3 simple pyramids.
+		GameObject *w = new GameObject(-40, 0, -10);
 		AddGameObject(w->AddComponent(new Triangler()));
 
-		GameObject *j = new GameObject( 30, 0, -10);
+		GameObject *j = new GameObject( 40, 0, -10);
 		AddGameObject(j->AddComponent(new Triangler()));
 
 		GameObject *k = new GameObject( 0, 0, -50);
@@ -90,7 +83,7 @@ public:
 		// GameObject.
 		// Note: if you want to uncomment this you'll have to adjust the size within the Transformer component and
 		// the position of the game object.
-		GameObject *q = new GameObject(0.0f, 15.0f, 40.0f);
+		GameObject *q = new GameObject(0.0f, 2.0f, 40.0f);
 		q->AddComponent(new CameraMove());
 		Camera *camera = new Camera(70.0f, 1.3333f, 0.01f, 1000.0f);
 		camera->SetCurrent();
@@ -102,14 +95,13 @@ public:
 
 	~Game() {
 		// Don't delete here GameObjects or Components, objects will delete them automatically.
-		delete texture;
 	}
 };
 
 int main(int argc, char** argv) {
 	// Here i'll limit the Frame Rate to 60 fps, just so process is not that expensive,
-	// you could try 5000 per example and surely with work. Note that at 60, you'll probably
-	// get 60 FPS and 60 UPS.
+	// you could try 5000 per example and surely will work better. Note that at 60, you'll probably
+	// get 60 FPS and 60 UPS. Also, turn of the lowCPU option.
 	core::Core core(640, 480, 60, new Game());
 	core.CreateDisplay("Moka Engine");
 

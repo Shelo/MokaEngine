@@ -1,6 +1,7 @@
 #include "Triangler.h"
 
 Triangler::~Triangler() {
+	delete material;
 	delete mesh;
 }
 
@@ -25,10 +26,12 @@ void Triangler::Create() {
 
 	mesh = new Mesh(vs);
 
+	material = new Material(new Texture("res/textures/bricks2.jpg"), 1.0f, 1.0f, 1.0f, 1.0f);
+
 	GetTransform().SetScale(20, 20, 20);
 }
 
 void Triangler::Render(Shader &shader) {
-	shader.Update(GetTransform());
+	shader.Update(GetTransform(), *material);
 	mesh->Draw();
 }
