@@ -1,6 +1,9 @@
 #include "Core.h"
 #include "Triangler.h"
 #include "Input.h"
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
 
 class CameraMove : public Component {
 public:
@@ -42,15 +45,17 @@ public:
 	void Create() {
 		util::HeapArray<Vertex*> vs = util::HeapArray<Vertex*>::New ({
 				new Vertex(-1, 0, -1, 0, 0),
-				new Vertex( 1, 0,  1, 10, 10),
-				new Vertex(-1, 0,  1, 0, 10),
-
-				new Vertex(-1, 0, -1, 0, 0),
 				new Vertex( 1, 0, -1, 10, 0),
 				new Vertex( 1, 0,  1, 10, 10),
+				new Vertex(-1, 0,  1, 0, 10),
 		});
 
-		mesh = new Mesh(vs);
+		std::vector<int> indices {
+				0, 1, 2,
+				0, 2, 3,
+		};
+
+		mesh = new Mesh(vs, indices);
 
 		material = new Material(new Texture("res/textures/grass.jpg"), 1.0f, 1.0f, 1.0f, 1.0f);
 	}
@@ -91,6 +96,21 @@ public:
 		q->AddComponent(camera);
 
 		AddGameObject(q);
+
+		/*
+		// Test using ASSIMP.
+		Assimp::Importer importer;
+		const aiScene* scene = importer.ReadFile("res/models/monke3.obj",
+				aiProcess_CalcTangentSpace |
+				aiProcess_Triangulate |
+				aiProcess_JoinIdenticalVertices);
+
+		if(!scene) {
+			std::cout << "File corrupted." << std::endl;
+		} else {
+			std::cout << "File imported correctly." << std::endl;
+		}
+		*/
 	}
 
 	~Game() {

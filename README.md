@@ -1,7 +1,7 @@
 # Moka Engine
 
 ## Steps
-Updated: 12-01-2015
+Updated: 15-01-2015
 
 * [**Done**] Create Core Engine.
 * [**Done**] Create Display. 
@@ -24,14 +24,14 @@ Updated: 12-01-2015
 * [**Done**] Been able to translate, scale and rotate a simple image.
 * [**Done**] Create an advanced Game Loop. 
 * [**Done**] Set a default Orthographic Camera in case user doesn't needs other.
+* [**Done**] Use indices when defining the mesh.
+* [**Done**] Enable Keyboard Input.
+* [**Done**] Enable Mouse Input.
+* [**Done**] Create the material class.
 * Automatic Uniforms.
 * Create framework for light system.
 * Create the "TRANSFORM HIERARCHY".
 * Send vertex normals to shader.
-* Use indices when defining the mesh.
-* [**Done**] Enable Keyboard Input.
-* [**Done**] Enable Mouse Input.
-* [**Done**] Create the material class.
 * Have a way to import mesh. (Probably with Assimp).
 * Calc faces tangents.
 * Implement Normal Mapping.

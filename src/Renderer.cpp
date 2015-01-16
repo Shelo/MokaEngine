@@ -5,8 +5,8 @@ Camera* Renderer::camera = NULL;
 
 void Renderer::Create() {
 	glFrontFace(GL_CW);
-	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.0f, 0.025, 0.35f, 1.0f);
 }
