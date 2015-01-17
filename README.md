@@ -28,14 +28,16 @@ Updated: 15-01-2015
 * [**Done**] Enable Keyboard Input.
 * [**Done**] Enable Mouse Input.
 * [**Done**] Create the material class.
-* Automatic Uniforms.
+* [**Done**] Have a way to import mesh. (Probably with Assimp).
+* [**Done**] Add normals to the vertices.
+* [**Done**] Add tangents to the vertices.
+* [**Done**] Send vertex normals to shader.
+* *Needed*: Automatic Uniforms.
 * Create framework for light system.
 * Create the "TRANSFORM HIERARCHY".
-* Send vertex normals to shader.
-* Have a way to import mesh. (Probably with Assimp).
-* Calc faces tangents.
 * Implement Normal Mapping.
 * Implement Parallax Displacement Mapping.
+* Take material color in consideration.
 
 ## Historical bugs
 

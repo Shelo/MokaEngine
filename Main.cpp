@@ -1,9 +1,7 @@
+#include "Moka.h"
 #include "Core.h"
 #include "Triangler.h"
 #include "Input.h"
-#include "assimp/Importer.hpp"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
 
 class CameraMove : public Component {
 public:
@@ -13,16 +11,16 @@ public:
 
 	void Update(double delta) {
 		if(Input::GetKey(GLFW_KEY_A))
-			GetTransform().Move(GetTransform().GetLeft(), (float) delta * 10);
+			GetTransform().Move(GetTransform().GetLeft(), (float) delta * 25);
 
 		if(Input::GetKey(GLFW_KEY_D))
-			GetTransform().Move(GetTransform().GetRight(), (float) delta * 10);
+			GetTransform().Move(GetTransform().GetRight(), (float) delta * 25);
 
 		if(Input::GetKey(GLFW_KEY_W))
-			GetTransform().Move(GetTransform().GetForward(), (float) delta * 10);
+			GetTransform().Move(GetTransform().GetForward(), (float) delta * 25);
 
 		if(Input::GetKey(GLFW_KEY_S))
-			GetTransform().Move(GetTransform().GetBack(), (float) delta * 10);
+			GetTransform().Move(GetTransform().GetBack(), (float) delta * 25);
 
 		GetTransform().Rotate(glm::vec3(0, -1, 0), (float const) (Input::GetDeltaX() * delta * 0.2f));
 		GetTransform().Rotate(GetTransform().GetLeft(), (float const) (Input::GetDeltaY() * delta * 0.2f));
@@ -43,21 +41,29 @@ public:
 	}
 
 	void Create() {
-		util::HeapArray<Vertex*> vs = util::HeapArray<Vertex*>::New ({
-				new Vertex(-1, 0, -1, 0, 0),
-				new Vertex( 1, 0, -1, 10, 0),
-				new Vertex( 1, 0,  1, 10, 10),
-				new Vertex(-1, 0,  1, 0, 10),
-		});
-
-		std::vector<int> indices {
-				0, 1, 2,
-				0, 2, 3,
-		};
-
-		mesh = new Mesh(vs, indices);
-
+		mesh = new Mesh("res/models/plane.obj");
 		material = new Material(new Texture("res/textures/grass.jpg"), 1.0f, 1.0f, 1.0f, 1.0f);
+	}
+
+	void Render(Shader &shader) {
+		shader.Update(GetTransform(), *material);
+		mesh->Draw();
+	}
+};
+
+class SampleMesh : public Component {
+private:
+	Material *material;
+	Mesh *mesh;
+public:
+	~SampleMesh() {
+		delete material;
+		delete mesh;
+	}
+
+	void Create() {
+		mesh = new Mesh("res/models/cube.obj");
+		material = new Material(new Texture("res/textures/ice.jpg"), 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	void Render(Shader &shader) {
@@ -84,33 +90,20 @@ public:
 		GameObject *k = new GameObject( 0, 0, -50);
 		AddGameObject(k->AddComponent(new Triangler()));
 
+		GameObject *s = new GameObject(0, 5, -5);
+		s->GetTransform().SetScale(2, 2, 2);
+		AddGameObject(s->AddComponent(new SampleMesh()));
+
 		// This defines a new camera attached to a game object, this camera will follow the position of the
 		// GameObject.
 		// Note: if you want to uncomment this you'll have to adjust the size within the Transformer component and
 		// the position of the game object.
 		GameObject *q = new GameObject(0.0f, 2.0f, 40.0f);
 		q->AddComponent(new CameraMove());
-		Camera *camera = new Camera(70.0f, 1.3333f, 0.01f, 1000.0f);
+		Camera *camera = new Camera(70.0f, Display::GetWidth() / (float) Display::GetHeight(), 0.01f, 1000.0f);
 		camera->SetCurrent();
-
 		q->AddComponent(camera);
-
 		AddGameObject(q);
-
-		/*
-		// Test using ASSIMP.
-		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile("res/models/monke3.obj",
-				aiProcess_CalcTangentSpace |
-				aiProcess_Triangulate |
-				aiProcess_JoinIdenticalVertices);
-
-		if(!scene) {
-			std::cout << "File corrupted." << std::endl;
-		} else {
-			std::cout << "File imported correctly." << std::endl;
-		}
-		*/
 	}
 
 	~Game() {
@@ -119,10 +112,10 @@ public:
 };
 
 int main(int argc, char** argv) {
-	// Here i'll limit the Frame Rate to 60 fps, just so process is not that expensive,
+	// Here i'll limit the Frame Rate to 100 fps, just so process is not that expensive,
 	// you could try 5000 per example and surely will work better. Note that at 60, you'll probably
 	// get 60 FPS and 60 UPS. Also, turn of the lowCPU option.
-	core::Core core(640, 480, 60, new Game());
+	core::Core core(1280, 720, 100, new Game());
 	core.CreateDisplay("Moka Engine");
 
 	glClearColor(0, 0, 0, 1);

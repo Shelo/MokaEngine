@@ -18,20 +18,21 @@ public:
 	void Update(const Transform& transform, Material& material);
 
 	void SetUniform(GLint location, const glm::mat4 mvp);
+	void SetUniform(GLint location, const glm::vec3 value);
 
 	enum {
 		U_TRANSFORM,
 		U_MVP,
+		U_AMBIENT_LIGHT,
 
-		NUM_UNIFORMS
+		UNIFORMS_SIZE
 	};
 
+	GLint uniforms[UNIFORMS_SIZE];
 private:
 	GLuint fragment;
 	GLuint program;
 	GLuint vertex;
-
-	GLint uniforms[NUM_UNIFORMS];
 };
 
 #endif

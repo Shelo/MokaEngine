@@ -7,24 +7,10 @@ Triangler::~Triangler() {
 }
 
 void Triangler::Create() {
-	util::HeapArray<Vertex*> vs = util::HeapArray<Vertex*>::New({
-			new Vertex(0, 2, 0, 0.5f, 1),
-			new Vertex(1, 0, 1, 0, 0),
-			new Vertex(-1, 0, 1, 1, 0),
-			new Vertex(1, 0, -1, 1, 0),
-			new Vertex(-1, 0, -1, 1, 0),
-	});
-
-	vector<int> indices {
-			0, 1, 2,
-			0, 3, 1,
-			0, 4, 3,
-			0, 2, 4
-	};
-
-	mesh = new Mesh(vs, indices);
+	mesh = new Mesh("res/models/pyramid.obj");
 	material = new Material(new Texture("res/textures/bricks2.jpg"), 1.0f, 1.0f, 1.0f, 1.0f);
-	GetTransform().SetScale(20, 20, 20);
+	GetTransform().SetScale(28, 20, 28);
+	GetTransform().Rotate(glm::vec3(0, 1, 0), glm::radians(45.0f));
 }
 
 void Triangler::Render(Shader &shader) {

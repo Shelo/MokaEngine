@@ -65,6 +65,8 @@ Shader::Shader(const std::string& filePath) {
 	// this is not extremely necessary, but can prevent some weird bugs.
 	glBindAttribLocation(program, 0, "position0");
 	glBindAttribLocation(program, 1, "texCoord0");
+	glBindAttribLocation(program, 2, "normal0");
+	glBindAttribLocation(program, 3, "tangent0");
 
 	glLinkProgram(program);
 	util::CheckShaderError(program, GL_LINK_STATUS, true, "Error: Shader linking failed.");
@@ -72,8 +74,10 @@ Shader::Shader(const std::string& filePath) {
 	glValidateProgram(program);
 	util::CheckShaderError(program, GL_VALIDATE_STATUS, true, "Error: Shader validation failed.");
 
+	// get uniform locations.
 	uniforms[U_TRANSFORM] = glGetUniformLocation(program, "u_transform");
 	uniforms[U_MVP] = glGetUniformLocation(program, "u_mvp");
+	uniforms[U_AMBIENT_LIGHT] = glGetUniformLocation(program, "u_ambientLight");
 }
 
 Shader::~Shader() {
@@ -99,4 +103,8 @@ void Shader::Update(const Transform &transform, Material& material) {
 
 void Shader::SetUniform(GLint location, const glm::mat4 mvp) {
 	glUniformMatrix4fv(uniforms[U_MVP], 1, GL_FALSE, &mvp[0][0]);
+}
+
+void Shader::SetUniform(GLint location, const glm::vec3 value) {
+	glUniform3f(location, value.x, value.y, value.z);
 }

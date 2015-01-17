@@ -21,4 +21,4 @@ set(SOURCE_FILES Main.cpp)
 add_executable(moka_engine ${SOURCE_FILES} ${HRDS} ${SRCS})
 
 link_directories(lib/)
-target_link_libraries(moka_engine glfw3.dll.a glew32s.lib opengl32.lib assimp.lib)
+target_link_libraries(moka_engine glfw3.dll.a glew32s.lib opengl32.lib assimp.lib zlib.a)

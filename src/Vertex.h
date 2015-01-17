@@ -7,20 +7,23 @@
 
 class Vertex {
 private:
-	glm::vec3 *position;
-	glm::vec2 *texCoord;
+	glm::vec3 position;
+	glm::vec2 texCoord;
 public:
-	Vertex(GLfloat x, GLfloat y, GLfloat z, GLfloat s, GLfloat t);
-	Vertex(GLfloat x, GLfloat y, GLfloat z);
-	~Vertex();
+	Vertex(GLfloat x, GLfloat y, GLfloat z, GLfloat s, GLfloat t) :
+		position(x, y, z),
+		texCoord(s, t) {}
 
-	static Vertex &New(GLfloat x, GLfloat y, GLfloat z, GLfloat s, GLfloat t);
-	static Vertex &New(GLfloat x, GLfloat y, GLfloat z);
+	Vertex(GLfloat x, GLfloat y, GLfloat z) :
+		position(x, y, z),
+		texCoord(0, 0) {}
 
-	static const GLuint SIZE = 5;
+	Vertex() :
+			position(0, 0, 0),
+			texCoord(0, 0) {}
 
-	glm::vec3 GetPosition() const;
-	glm::vec2 GetTexCoord() const;
+	glm::vec3& GetPosition() { return position; };
+	glm::vec2& GetTexCoord() { return texCoord; };
 };
 
 #endif
