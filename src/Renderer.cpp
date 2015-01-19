@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "Display.h"
 #include "Moka.h"
+#include "light/BaseLight.h"
 
 Camera* Renderer::camera = NULL;
 
@@ -12,6 +13,8 @@ void Renderer::Create() {
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.0f, 0.025, 0.35f, 1.0f);
+
+	ambientShader.Bind();
 }
 
 void Renderer::Render(BaseGame *game) {
@@ -21,11 +24,30 @@ void Renderer::Render(BaseGame *game) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	shader.SetUniform(Shader::U_MVP, camera->GetMVP());
-	shader.SetUniform(shader.uniforms[Shader::U_AMBIENT_LIGHT], glm::vec3(0.2f, 0.2f, 0.2f));
+	ambientShader.Bind();
+	ambientShader.SetUniform("u_mvp", camera->GetMVP());
+	ambientShader.SetUniform("u_eyePos", camera->GetTransform().GetPosition());
 
-	shader.Bind();
-	game->Render(shader);
+	directionalShader.Bind();
+	directionalShader.SetUniform("u_mvp", camera->GetMVP());
+	directionalShader.SetUniform("u_eyePos", camera->GetTransform().GetPosition());
+
+	ambientShader.Bind();
+	game->Render(ambientShader);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE);
+	glDepthMask(GL_FALSE);
+	glDepthFunc(GL_EQUAL);
+
+	for(int i = 0; i < lights.size(); ++i) {
+		lights[i]->Update();
+		game->Render(*lights[i]->GetShader());
+	}
+
+	glDepthMask(GL_TRUE);
+	glDepthFunc(GL_LESS);
+	glDisable(GL_BLEND);
 }
 
 void Renderer::SetCamera(Camera *camera) {
@@ -34,4 +56,16 @@ void Renderer::SetCamera(Camera *camera) {
 
 void Renderer::DefaultCamera() {
 	Renderer::camera = new Camera(0, Display::GetWidth(), 0, Display::GetHeight(), -1.0f, 1.0f);
+}
+
+void Renderer::AddLight(BaseLight *light, unsigned int type) {
+	switch(type) {
+		case SHADER_DIRECTIONAL:
+			light->SetShader(&directionalShader);
+			break;
+		default:
+			std::cerr << "Shader not available" << std::endl;
+	}
+
+	lights.push_back(light);
 }

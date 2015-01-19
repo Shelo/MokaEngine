@@ -16,7 +16,7 @@ namespace util {
 		return output;
 	}
 
-	static void CheckShaderError(int shader, int flag, bool isProgram, const std::string& errorMessage) {
+	static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage) {
 		GLint success = 0;
 		GLchar error[1024] = {0};
 
@@ -53,11 +53,13 @@ namespace util {
 	}
 }
 
-Shader::Shader(const std::string& filePath) {
+Shader::Shader(const std::string& name) :
+	defaultNormalMap("res/textures/default_normal.jpg") {
+
 	program = glCreateProgram();
 
-	vertex = util::CreateShader(util::LoadFileText(filePath + ".vs"), GL_VERTEX_SHADER);
-	fragment = util::CreateShader(util::LoadFileText(filePath + ".fs"), GL_FRAGMENT_SHADER);
+	vertex = util::CreateShader(util::LoadFileText("res/shaders/f-vertex.glsl"), GL_VERTEX_SHADER);
+	fragment = util::CreateShader(util::LoadFileText("res/shaders/f-frag-" + name + ".glsl"), GL_FRAGMENT_SHADER);
 
 	glAttachShader(program, vertex);
 	glAttachShader(program, fragment);
@@ -73,11 +75,6 @@ Shader::Shader(const std::string& filePath) {
 
 	glValidateProgram(program);
 	util::CheckShaderError(program, GL_VALIDATE_STATUS, true, "Error: Shader validation failed.");
-
-	// get uniform locations.
-	uniforms[U_TRANSFORM] = glGetUniformLocation(program, "u_transform");
-	uniforms[U_MVP] = glGetUniformLocation(program, "u_mvp");
-	uniforms[U_AMBIENT_LIGHT] = glGetUniformLocation(program, "u_ambientLight");
 }
 
 Shader::~Shader() {
@@ -98,13 +95,59 @@ void Shader::Update(const Transform &transform, Material& material) {
 	glm::mat4 model = transform.GetModel();
 	material.GetTexture().Bind();
 
-	glUniformMatrix4fv(uniforms[U_TRANSFORM], 1, GL_FALSE, &model[0][0]);
+	SetUniform("u_normalMap", 1);
+
+	if(material.HasNormalMap())
+		material.GetNormalMap().Bind(1);
+	else
+		defaultNormalMap.Bind(1);
+
+	SetUniform("u_model", model);
+	SetUniform("u_color", material.GetColor());
+	SetUniform("u_specularIntensity", material.GetSpecularIntensity());
+	SetUniform("u_specularExponent", material.GetSpecularExponent());
+	SetUniform("u_tiling", material.GetTilingX(), material.GetTilingY());
 }
 
-void Shader::SetUniform(GLint location, const glm::mat4 mvp) {
-	glUniformMatrix4fv(uniforms[U_MVP], 1, GL_FALSE, &mvp[0][0]);
+void Shader::SetUniform(std::string uniform, const glm::mat4 values) {
+	glUniformMatrix4fv(GetUniformLocation(uniform), 1, GL_FALSE, &values[0][0]);
 }
 
-void Shader::SetUniform(GLint location, const glm::vec3 value) {
-	glUniform3f(location, value.x, value.y, value.z);
+void Shader::SetUniform(std::string uniform, const glm::vec3 value) {
+	glUniform3f(GetUniformLocation(uniform), value.x, value.y, value.z);
+}
+
+void Shader::SetUniform(std::string uniform, const glm::vec4 value) {
+	glUniform4f(GetUniformLocation(uniform), value.x, value.y, value.z, value.w);
+}
+
+void Shader::SetUniform(std::string uniform, const int value) {
+	glUniform1i(GetUniformLocation(uniform), value);
+}
+
+void Shader::SetUniform(std::string uniform, const float value) {
+	glUniform1f(GetUniformLocation(uniform), value);
+}
+
+void Shader::SetUniform(std::string uniform, const float x, const float y) {
+	glUniform2f(GetUniformLocation(uniform), x, y);
+}
+
+GLint Shader::GetUniformLocation(const std::string& uniform) {
+	std::map<std::string, GLint>::iterator it = uniforms.find(uniform);
+
+	GLint location = 0;
+	if(it != uniforms.end())
+		location = it->second;
+	else {
+		location = glGetUniformLocation(program, uniform.c_str());
+
+		if(location == -1)
+			std::cerr << "[Ignore] No uniform with name: " << uniform << std::endl;
+
+		uniforms[uniform] = location;
+	}
+
+
+	return location;
 }

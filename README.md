@@ -1,7 +1,7 @@
 # Moka Engine
 
 ## Steps
-Updated: 15-01-2015
+Updated: 18-01-2015
 
 * [**Done**] Create Core Engine.
 * [**Done**] Create Display. 
@@ -32,12 +32,15 @@ Updated: 15-01-2015
 * [**Done**] Add normals to the vertices.
 * [**Done**] Add tangents to the vertices.
 * [**Done**] Send vertex normals to shader.
-* *Needed*: Automatic Uniforms.
+* [**Done**] Automatic Uniforms.
+* [**Done**] Take material color in consideration.
+* [**Done**] Enable texture tiling.
+* [**Done**] Implement Normal Mapping.
+* Create framework for Forward Rendering.
 * Create framework for light system.
 * Create the "TRANSFORM HIERARCHY".
-* Implement Normal Mapping.
 * Implement Parallax Displacement Mapping.
-* Take material color in consideration.
+* Change "mvp" to "viewProjection", because the matrix doesn't include the model matrix.
 
 ## Historical bugs
 

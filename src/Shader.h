@@ -4,6 +4,8 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <map>
+
 #define GLEW_STATIC
 #include "GL/glew.h"
 #include "Transform.h"
@@ -11,28 +13,37 @@
 
 class Shader {
 public:
-	Shader(const std::string& filePath);
+	Shader(const std::string&name);
 	virtual ~Shader();
 
 	void Bind();
 	void Update(const Transform& transform, Material& material);
 
-	void SetUniform(GLint location, const glm::mat4 mvp);
-	void SetUniform(GLint location, const glm::vec3 value);
+	/**
+	 * Returns an stored location for an existing uniform, if the location isn't found, this method
+	 * creates one.
+	 */
+	GLint GetUniformLocation(const std::string& uniform);
 
-	enum {
-		U_TRANSFORM,
-		U_MVP,
-		U_AMBIENT_LIGHT,
+	void SetUniform(std::string uniform, const glm::mat4 values);
+	void SetUniform(std::string uniform, const glm::vec3 value);
+	void SetUniform(std::string uniform, const glm::vec4 value);
+	void SetUniform(std::string uniform, const float value);
+	void SetUniform(std::string uniform, const int value);
+	void SetUniform(std::string uniform, const float x, const float y);
 
-		UNIFORMS_SIZE
-	};
-
-	GLint uniforms[UNIFORMS_SIZE];
 private:
-	GLuint fragment;
+	// map for uniform's locations.
+	std::map<std::string, GLint> uniforms;
+
+	// program pointer.
 	GLuint program;
+
+	// shader pointers.
+	GLuint fragment;
 	GLuint vertex;
+
+	Texture defaultNormalMap;
 };
 
 #endif

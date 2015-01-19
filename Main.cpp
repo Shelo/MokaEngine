@@ -1,7 +1,9 @@
+#include <MeshRenderer.h>
+#include "Mesh.h"
 #include "Moka.h"
 #include "Core.h"
-#include "Triangler.h"
 #include "Input.h"
+#include "light/DirectionalLight.h"
 
 class CameraMove : public Component {
 public:
@@ -10,23 +12,18 @@ public:
 	}
 
 	void Update(double delta) {
-		if(Input::GetKey(GLFW_KEY_A))
-			GetTransform().Move(GetTransform().GetLeft(), (float) delta * 25);
+		// Behavior for WASD keys.
+		if(Input::GetKey(GLFW_KEY_A)) GetTransform().Move(GetTransform().GetLeft(),    (float) delta * 25);
+		if(Input::GetKey(GLFW_KEY_D)) GetTransform().Move(GetTransform().GetRight(),   (float) delta * 25);
+		if(Input::GetKey(GLFW_KEY_W)) GetTransform().Move(GetTransform().GetForward(), (float) delta * 25);
+		if(Input::GetKey(GLFW_KEY_S)) GetTransform().Move(GetTransform().GetBack(),    (float) delta * 25);
 
-		if(Input::GetKey(GLFW_KEY_D))
-			GetTransform().Move(GetTransform().GetRight(), (float) delta * 25);
-
-		if(Input::GetKey(GLFW_KEY_W))
-			GetTransform().Move(GetTransform().GetForward(), (float) delta * 25);
-
-		if(Input::GetKey(GLFW_KEY_S))
-			GetTransform().Move(GetTransform().GetBack(), (float) delta * 25);
-
+		// Rotate with cursor delta.
 		GetTransform().Rotate(glm::vec3(0, -1, 0), (float const) (Input::GetDeltaX() * delta * 0.2f));
 		GetTransform().Rotate(GetTransform().GetLeft(), (float const) (Input::GetDeltaY() * delta * 0.2f));
 
-		if(Input::GetMouseDown(GLFW_MOUSE_BUTTON_1))
-			Input::ToggleCursorLocked();
+		// Toggle Cursor Lock when mouse presses the left button.
+		if(Input::GetMouseDown(GLFW_MOUSE_BUTTON_1)) Input::ToggleCursorLocked();
 	}
 };
 
@@ -42,7 +39,11 @@ public:
 
 	void Create() {
 		mesh = new Mesh("res/models/plane.obj");
-		material = new Material(new Texture("res/textures/grass.jpg"), 1.0f, 1.0f, 1.0f, 1.0f);
+
+		material = new Material(new Texture("res/textures/wood.jpg"), glm::vec3(1.0f, 1.0f, 1.0f));
+		material->SetNormalMap(new Texture("res/textures/wood_normal.jpg"));
+		material->SetSpecular(2, 16);
+		material->SetTiling(10, 10);
 	}
 
 	void Render(Shader &shader) {
@@ -63,7 +64,35 @@ public:
 
 	void Create() {
 		mesh = new Mesh("res/models/cube.obj");
-		material = new Material(new Texture("res/textures/ice.jpg"), 1.0f, 1.0f, 1.0f, 1.0f);
+		material = new Material(new Texture("res/textures/ice.jpg"), glm::vec3(1.0f, 1.0f, 1.0f));
+		material->SetNormalMap(new Texture("res/textures/ice_normal.jpg"));
+		material->SetSpecular(1, 16);
+	}
+
+	void Render(Shader &shader) {
+		shader.Update(GetTransform(), *material);
+		mesh->Draw();
+	}
+};
+
+class Pyramid : public Component {
+private:
+	Material *material;
+	Mesh *mesh;
+public:
+	~Pyramid() {
+		delete material;
+		delete mesh;
+	}
+
+	void Create() {
+		mesh = new Mesh("res/models/pyramid.obj");
+		material = new Material(new Texture("res/textures/wood.jpg"), glm::vec3(1.0f, 1.0f, 1.0f));
+		material->SetTiling(2, 2);
+		material->SetNormalMap(new Texture("res/textures/floor_normal.jpg"));
+
+		GetTransform().SetScale(28, 20, 28);
+		GetTransform().Rotate(glm::vec3(0, 1, 0), glm::radians(45.0f));
 	}
 
 	void Render(Shader &shader) {
@@ -80,19 +109,19 @@ public:
 		p->GetTransform().SetScale(100, 1, 100);
 		AddGameObject(p->AddComponent(new OnePlane()));
 
-		// 3 simple pyramids.
-		GameObject *w = new GameObject(-40, 0, -10);
-		AddGameObject(w->AddComponent(new Triangler()));
-
-		GameObject *j = new GameObject( 40, 0, -10);
-		AddGameObject(j->AddComponent(new Triangler()));
-
 		GameObject *k = new GameObject( 0, 0, -50);
-		AddGameObject(k->AddComponent(new Triangler()));
+		Mesh* mesh = new Mesh("res/models/frontier.obj");
+		Material* mat = new Material(new Texture("res/textures/bricks.jpg"), glm::vec3(1.0f, 1.0f, 1.0f));
+		mat->SetNormalMap(new Texture("res/textures/bricks_normal.jpg"));
+		AddGameObject(k->AddComponent(new MeshRenderer(*mesh, *mat)));
+		k->GetTransform().SetScale(4, 4, 4);
+		k->GetTransform().Rotate(glm::vec3(0, -1, 0), glm::radians(90.0f));
 
 		GameObject *s = new GameObject(0, 5, -5);
 		s->GetTransform().SetScale(2, 2, 2);
 		AddGameObject(s->AddComponent(new SampleMesh()));
+		AddGameObject((new GameObject())->AddComponent(new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, glm::vec3(-1.0f, -1.0f, -1.0f))));
+
 
 		// This defines a new camera attached to a game object, this camera will follow the position of the
 		// GameObject.
@@ -118,11 +147,13 @@ int main(int argc, char** argv) {
 	core::Core core(1280, 720, 100, new Game());
 	core.CreateDisplay("Moka Engine");
 
-	glClearColor(0, 0, 0, 1);
-
 	// this method activates a way to reduce drastically the cpu usage. Anyway, is not recommended and
 	// shouldn't be used in a release, use it for dev only.
 	core.SetLowCPU(true);
+
+	// Here could be a good place for render, physics, etc, settings.
+	Moka::SetAmbientLight(0.2f, 0.2f, 0.2f);
+	Moka::SetClearColor(0, 0, 0);
 
 	core.Start();
 	return 0;

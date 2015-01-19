@@ -10,7 +10,7 @@ public:
 	virtual void Update(double delta) {}
 	virtual void Render(Shader &shader) {}
 
-	void SetGameObject(GameObject *gameObject);
+	void SetGameObject(GameObject* gameObject);
 
 	GameObject* GetGameObject();
 	Transform& GetTransform();

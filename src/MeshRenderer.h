@@ -10,9 +10,9 @@ private:
     Material material;
     Mesh mesh;
 public:
-    MeshRenderer(Mesh& _mesh, Material& _material) :
-        material(_material),
-        mesh(_mesh) {}
+    MeshRenderer(const Mesh& mesh, const Material& material) :
+        material(material),
+        mesh(mesh) {}
 
     void Render(Shader& shader);
 

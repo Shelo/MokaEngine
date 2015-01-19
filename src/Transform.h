@@ -13,10 +13,10 @@ private:
 	glm::vec3 position;
 	glm::vec3 scale;
 public:
-	Transform(glm::vec3& _position, glm::vec3& _scale, glm::quat& _rotation) :
-		position(_position),
-		scale(_scale),
-		rotation(_rotation) {}
+	Transform(glm::vec3& position, glm::vec3& scale, glm::quat& rotation) :
+		position(position),
+		scale(scale),
+		rotation(rotation) {}
 
 	Transform(float x, float y, float z) :
 		position(x, y, z),
