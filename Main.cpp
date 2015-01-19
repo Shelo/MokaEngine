@@ -43,7 +43,7 @@ public:
 		material = new Material(new Texture("res/textures/wood.jpg"), glm::vec3(1.0f, 1.0f, 1.0f));
 		material->SetNormalMap(new Texture("res/textures/wood_normal.jpg"));
 		material->SetSpecular(2, 16);
-		material->SetTiling(10, 10);
+		material->SetTiling(50, 50);
 	}
 
 	void Render(Shader &shader) {
@@ -104,19 +104,21 @@ public:
 class Game : public BaseGame {
 public:
 	void Create() {
-		// Here i'll create the plane of the scene, this is done by the OnePlane component.
+		// Plane.
 		GameObject *p = new GameObject(0, 0, 0);
 		p->GetTransform().SetScale(100, 1, 100);
 		AddGameObject(p->AddComponent(new OnePlane()));
 
+		// Fortress.
 		GameObject *k = new GameObject( 0, 0, -50);
 		Mesh* mesh = new Mesh("res/models/frontier.obj");
 		Material* mat = new Material(new Texture("res/textures/bricks.jpg"), glm::vec3(1.0f, 1.0f, 1.0f));
 		mat->SetNormalMap(new Texture("res/textures/bricks_normal.jpg"));
 		AddGameObject(k->AddComponent(new MeshRenderer(*mesh, *mat)));
-		k->GetTransform().SetScale(4, 4, 4);
+		k->GetTransform().SetScale(6, 3, 6);
 		k->GetTransform().Rotate(glm::vec3(0, -1, 0), glm::radians(90.0f));
 
+		// Directional Light.
 		GameObject *s = new GameObject(0, 5, -5);
 		s->GetTransform().SetScale(2, 2, 2);
 		AddGameObject(s->AddComponent(new SampleMesh()));
