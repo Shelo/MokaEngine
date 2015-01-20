@@ -1,9 +1,7 @@
-#include <MeshRenderer.h>
-#include "Mesh.h"
-#include "Moka.h"
-#include "Core.h"
-#include "Input.h"
 #include "light/DirectionalLight.h"
+#include "MeshRenderer.h"
+#include "Input.h"
+#include "Core.h"
 
 class CameraMove : public Component {
 public:
@@ -69,6 +67,10 @@ public:
 		material->SetSpecular(1, 16);
 	}
 
+	void Update(double delta) {
+		GetTransform().Rotate(glm::vec3(0, -1, 0), (float const) (1.0f * delta));
+	}
+
 	void Render(Shader &shader) {
 		shader.Update(GetTransform(), *material);
 		mesh->Draw();
@@ -101,6 +103,28 @@ public:
 	}
 };
 
+class SkyBox : public Component {
+private:
+	Material *material;
+	Mesh *mesh;
+public:
+	~SkyBox() {
+		delete material;
+		delete mesh;
+	}
+
+	void Create() {
+		mesh = new Mesh("res/models/skyBoxCube.obj");
+		material = new Material(new Texture("res/textures/skybox.jpg"), glm::vec3(1.0f, 1.0f, 1.0f));
+		GetTransform().SetScale(500, 500, 500);
+	}
+
+	void Render(Shader &shader) {
+		shader.Update(GetTransform(), *material);
+		mesh->Draw();
+	}
+};
+
 class Game : public BaseGame {
 public:
 	void Create() {
@@ -110,20 +134,20 @@ public:
 		AddGameObject(p->AddComponent(new OnePlane()));
 
 		// Fortress.
-		GameObject *k = new GameObject( 0, 0, -50);
-		Mesh* mesh = new Mesh("res/models/frontier.obj");
+		GameObject *k = new GameObject( 0, 0, 0);
+		Mesh* mesh = new Mesh("res/models/fortress.obj");
 		Material* mat = new Material(new Texture("res/textures/bricks.jpg"), glm::vec3(1.0f, 1.0f, 1.0f));
 		mat->SetNormalMap(new Texture("res/textures/bricks_normal.jpg"));
 		AddGameObject(k->AddComponent(new MeshRenderer(*mesh, *mat)));
-		k->GetTransform().SetScale(6, 3, 6);
 		k->GetTransform().Rotate(glm::vec3(0, -1, 0), glm::radians(90.0f));
 
-		// Directional Light.
-		GameObject *s = new GameObject(0, 5, -5);
-		s->GetTransform().SetScale(2, 2, 2);
+		// Cube.
+		GameObject *s = new GameObject(0, 2, 0);
+		s->GetTransform().SetScale(1, 1, 1);
 		AddGameObject(s->AddComponent(new SampleMesh()));
-		AddGameObject((new GameObject())->AddComponent(new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, glm::vec3(-1.0f, -1.0f, -1.0f))));
 
+		// Directional Light.
+		AddGameObject((new GameObject())->AddComponent(new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, glm::vec3(-1.0f, -1.0f, -1.0f))));
 
 		// This defines a new camera attached to a game object, this camera will follow the position of the
 		// GameObject.
@@ -134,6 +158,7 @@ public:
 		Camera *camera = new Camera(70.0f, Display::GetWidth() / (float) Display::GetHeight(), 0.01f, 1000.0f);
 		camera->SetCurrent();
 		q->AddComponent(camera);
+		q->AddComponent(new SkyBox());
 		AddGameObject(q);
 	}
 

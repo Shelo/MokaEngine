@@ -36,10 +36,9 @@ Mesh::Mesh(const std::string& filePath) :
 	normals.reserve((size_t) model->mNumVertices);
 	indices.reserve((size_t) model->mNumFaces * 3);
 
-	aiVector3D zero(0, 0, 0);
 	for(unsigned int i = 0; i < model->mNumVertices; i++) {
 		const aiVector3D pos = model->mVertices[i];
-		const aiVector3D tex = model->HasTextureCoords(0) ? model->mTextureCoords[0][i] : zero;
+		const aiVector3D tex = model->HasTextureCoords(0) ? model->mTextureCoords[0][i] : aiVector3D(0, 0, 0);
 		const aiVector3D tan = model->mTangents[i];
 		const aiVector3D nor = model->mNormals[i];
 

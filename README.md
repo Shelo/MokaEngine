@@ -41,6 +41,7 @@ Updated: 18-01-2015
 * Create the "TRANSFORM HIERARCHY".
 * Implement Parallax Displacement Mapping.
 * Change "mvp" to "viewProjection", because the matrix doesn't include the model matrix.
+* Think of a new way so materials can choose a desired Shader Program.
 
 ## Historical bugs
 
